@@ -11,7 +11,7 @@
   },
   "scripts": {
     "webpack": "webpack",
-    "start": "webpack-dev-server --open"
+    "start": "webpack serve --open"
   },
   "repository": {
     "type": "git",
