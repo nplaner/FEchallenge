@@ -26,6 +26,7 @@
   "homepage": "https://github.com/nplaner/FEchallenge#readme",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "multiselect-react-dropdown": "^1.6.11",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-multi-select-component": "^3.1.5",
