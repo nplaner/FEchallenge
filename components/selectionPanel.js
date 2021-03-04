@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import WeatherTable from './WeatherTable.js';
 
-export default function SelectionPanel({ cityNames }) {
+export default function SelectionPanel({ cityNames, cities }) {
   const [selected, setSelected] = useState([])
   const handleClick = (e) => {
     if(e.target.checked) {
@@ -12,6 +12,15 @@ export default function SelectionPanel({ cityNames }) {
       setSelected(selected.filter(city => city !== e.target.value))
     }
   }
+  const ids = []
+  for(let i = 0; i < cities.length; i++) {
+    for(let j = 0; j < selected.length; j++) {
+      if(cities[i].name === selected[j]) {
+        ids.push(cities[i].id)
+      }
+    }
+  }
+  
   const boxes = []
   cityNames.map((el,i) => {
     boxes.push(<label key={i}><input type="checkbox" onClick={handleClick} value={el}/>{el}</label>)
@@ -20,7 +29,7 @@ export default function SelectionPanel({ cityNames }) {
   return (
     <div>
       {boxes}
-      <WeatherTable selected={selected}/>
+      <WeatherTable ids={ids}/>
     </div>
   )
 }

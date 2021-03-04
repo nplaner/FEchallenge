@@ -17,12 +17,9 @@ export default function App() {
   console.log(Cities.values())
   return (
     <div className="App">
-      <SelectionPanel cityNames={cityNames}/>
+      <SelectionPanel cityNames={cityNames} cities={Cities}/>
     </div>
   )
 }
-
-
-
 
 ReactDOM.render(<App />, document.getElementById('app'))

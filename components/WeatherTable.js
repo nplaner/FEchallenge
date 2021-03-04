@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,6 +7,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { API_KEY } from '../apiKey.js'
+import Reload from './reload'
 
 const useStyles = makeStyles({
   table: {
@@ -18,32 +20,32 @@ function createData(cityName, temp, minTemp, updated) {
   return { cityName, temp, minTemp, updated };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24),
-  createData('Ice cream sandwich', 237, 9.0, 37),
-  createData('Eclair', 262, 16.0, 24),
-  createData('Cupcake', 305, 3.7, 67),
-  createData('Gingerbread', 356, 16.0, 49),
-];
-
-export default function WeatherTable({ selected }) {
+export default function WeatherTable({ ids }) {
+  const [fetchedData, setFetchedData] = useState([]);
   const classes = useStyles();
-  console.log(selected)
-  // const initFetch = () => {
+  console.log(ids)
+  const initFetch = () => {
       
-  //   Promise.all(cityIds.map((id) => fetch(
-  //     `http://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${API_KEY}`
-  //    )
-  //    .then((res) => res.json())
-  //    .then((data) => {
-  //      console.log(data)
-  //   })))
-  // }
-  
-  // useEffect(() => {
-  //   initFetch();
-  // }, []);
-  
+    Promise.all(ids.map((id) => fetch(
+      `http://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${API_KEY}&units=imperial`
+     )
+     .then((res) => res.json())
+     .then((data) => {
+       console.log(data)
+       const time = new Date(data.dt*1000).toLocaleTimeString()
+       setFetchedData(arr => [...arr, [`${data.name}`, data.main.temp, data.main.temp_min, time]]);
+      })))
+    }
+    
+    console.log('fetcheddata:',fetchedData)
+  useEffect(() => {
+    initFetch();
+  },[ids]);
+  const rows = fetchedData.map(arr => JSON.stringify(arr))
+    .filter((item,index,array) => array.indexOf(item) === index)
+    .map(str => JSON.parse(str))
+    .map((e) => createData(...e))
+  console.log('rows:', rows)
   
   return (
     <TableContainer component={Paper}>
@@ -57,8 +59,8 @@ export default function WeatherTable({ selected }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
+          {rows.map((row,i) => (
+            <TableRow key={i}>
               <TableCell component="th" scope="row" align="center">
                 {row.cityName}
               </TableCell>
@@ -69,6 +71,7 @@ export default function WeatherTable({ selected }) {
           ))}
         </TableBody>
       </Table>
+      <Reload initFetch={initFetch}/>
     </TableContainer>
   );
 }
