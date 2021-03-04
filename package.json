@@ -26,7 +26,9 @@
   "homepage": "https://github.com/nplaner/FEchallenge#readme",
   "dependencies": {
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-multi-select-component": "^3.1.5",
+    "react-select": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
