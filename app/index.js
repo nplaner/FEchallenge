@@ -11,10 +11,6 @@ export default function App() {
     { name: 'Shanggu', id: '1796247' }
   ]
   let cityNames = Cities.map(e => e.name)
-  console.log('city names:', cityNames)
-  let cityIds = Cities.map(e => e.id)
-  console.log('city ids:', cityIds)
-  console.log(Cities.values())
   return (
     <div className="App">
       <SelectionPanel cityNames={cityNames} cities={Cities}/>

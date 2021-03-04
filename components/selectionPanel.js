@@ -6,9 +6,8 @@ export default function SelectionPanel({ cityNames, cities }) {
   const [selected, setSelected] = useState([])
   const handleClick = (e) => {
     (e.length ? setSelected(arr => [...arr, e]) : null)
-    // console.log('e', e)
   }
-  console.log('selected', selected) 
+  
   const ids = []
   for(let i = 0; i < cities.length; i++) {
     for(let j = 0; j < selected.length; j++) {

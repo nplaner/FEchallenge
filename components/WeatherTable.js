@@ -23,7 +23,6 @@ function createData(cityName, temp, minTemp, updated) {
 export default function WeatherTable({ ids }) {
   const [fetchedData, setFetchedData] = useState([]);
   const classes = useStyles();
-  console.log('ids', ids)
   const initFetch = () => {
       
     Promise.all(ids.map((id) => fetch(
@@ -31,13 +30,11 @@ export default function WeatherTable({ ids }) {
      )
      .then((res) => res.json())
      .then((data) => {
-      //  console.log(data)
        const time = new Date(data.dt*1000).toLocaleTimeString()
        setFetchedData(arr => [...arr, [`${data.name}`, data.main.temp, data.main.temp_min, time]]);
       })))
     }
-    
-    // console.log('fetcheddata:',fetchedData)
+
   useEffect(() => {
     initFetch();
   },[ids]);
@@ -45,7 +42,6 @@ export default function WeatherTable({ ids }) {
     .filter((item,index,array) => array.indexOf(item) === index)
     .map(str => JSON.parse(str))
     .map((e) => createData(...e))
-  // console.log('rows:', rows)
   
   return (
     <TableContainer component={Paper}>
